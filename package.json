@@ -7,10 +7,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon ./Scripts/API/app.js",
-    "start": "node ./scripts/API/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "start": "node scripts/API/index.js"
+},
   "dependencies": {
     "@fluxbot/better-console": "^1.1.3",
     "colors": "^1.4.0",
