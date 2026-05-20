@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinanceTrack — Mes Créances</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="/CSS/creance.css">
+  <script src="/Scripts/Pages/creances.js" type="module"></script>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<button class="burger" id="burger" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i>
+</button>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-icon"><i class="fas fa-chart-pie"></i></div>
+      FinanceTrack
+    </div>
+    <nav>
+      <div class="nav-section">Menu</div>
+      <ul>
+        <li onclick="location.href='index.html'"><i class="fas fa-th-large"></i> Tableau de Bord</li>
+        <li onclick="location.href='dettes.html'"><i class="fas fa-hand-holding-usd"></i> Dettes</li>
+        <li class="active"><i class="fas fa-piggy-bank"></i> Créances <span class="badge" id="sidebarBadge"></span></li>
+        <li><i class="fas fa-history"></i> Historique</li>
+      </ul>
+      <div class="nav-section">Analyse</div>
+      <ul>
+        <li><i class="fas fa-chart-line"></i> Rapports</li>
+        <li><i class="fas fa-bell"></i> Alertes</li>
+      </ul>
+      <div class="nav-section">Système</div>
+      <ul>
+        <li><i class="fas fa-cog"></i> Paramètres</li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">IB</div>
+      <div>
+        <div class="name">Ibrahima B.</div>
+        <div class="role">Compte personnel</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Mes Créances</h1>
+        <!-- <p id="topbarSub">Chargement en cours…</p> -->
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" title="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="icon-btn" title="Recherche"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+
+    <!-- Summary Strip -->
+    <div class="summary-strip">
+      <div class="scard">
+        <div class="scard-icon green"><i class="fas fa-piggy-bank"></i></div>
+        <div>
+          <div class="scard-label">Total à recevoir</div>
+          <div class="scard-value green" id="totalARecevoir"></div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="scard-icon gold"><i class="fas fa-hourglass-half"></i></div>
+        <div>
+          <div class="scard-label">En attente</div>
+          <div class="scard-value gold" id="countPending">—</div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="scard-icon blue"><i class="fas fa-check-circle"></i></div>
+        <div>
+          <div class="scard-label">Encaissées</div>
+          <div class="scard-value blue" id="countReceived">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters + Search -->
+    <div class="filters-bar">
+      <button class="filter-btn actives" data-filter="all" id="allCreances">Toutes</button>
+      <button class="filter-btn gold" data-filter="pending" id="pending">En attente</button>
+      <button class="filter-btn green" data-filter="received" id="alreadyPaid">Encaissées</button>
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input class="search-input" type="text" id="searchInput" placeholder="Rechercher…">
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="data-box">
+      <div class="box-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          <h2>Liste des Créances</h2>
+          <span class="count" id="tableCount">0</span>
+        </div>
+        <button class="add-btn" id="openModal"><i class="fas fa-plus"></i> Ajouter</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Débiteur</th>
+            <th>Montant</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="creancesTableBody"></tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal Ajout Créance -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3><i class="fas fa-plus-circle" style="color:var(--green);margin-right:10px"></i>Nouvelle Créance</h3>
+    <div class="form-group">
+      <label>Nom du débiteur</label>
+      <input type="text" id="fName" placeholder="Ex : Fatou Sarr">
+    </div>
+    <div class="form-group">
+      <label>Montant (F)</label>
+      <input type="number" id="fAmount" placeholder="Ex : 25000">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="fDesc" placeholder="Motif du prêt…"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" id="closeModal">Annuler</button>
+      <button class="btn btn-submit" id="submitCreance"><i class="fas fa-save"></i> Enregistrer</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
