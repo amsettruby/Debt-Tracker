@@ -1,6 +1,6 @@
 // const { all } = require("axios");
 
-const api = "https://debt-tracking.onrender.com/api/dettes";
+const api = "http://localhost:8080/api/dettes";
 
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
@@ -60,7 +60,12 @@ async function getDebtsData() {
 
       if (debtStatus == true) debtStatut.textContent = "Payé";
       if (debtStatus == false) debtStatut.textContent = "Non Payé";
-      payButton.textContent = "Payer";
+      if (debtStatus == true) {
+        payButton.classList.add("pay-buttons--paid");
+        payButton.textContent = "Payé";
+      } else {
+        payButton.textContent = "Payer";
+      }
       userTd.textContent = debt.person;
       amountTd.textContent = debt.amount + " F";
       debtDescription.textContent = debt.description;
@@ -132,7 +137,12 @@ pendingButtonFilter.addEventListener("click", async function () {
 
       if (debtStatus == true) debtStatut.textContent = "Payé";
       if (debtStatus == false) debtStatut.textContent = "Non Payé";
-      payButton.textContent = "Payer";
+      if (debtStatus == true) {
+        payButton.classList.add("pay-buttons--paid");
+        payButton.textContent = "Payé";
+      } else {
+        payButton.textContent = "Payer";
+      }
       userTd.textContent = debt.person;
       amountTd.textContent = debt.amount + " F";
       debtDescription.textContent = debt.description;
@@ -201,7 +211,12 @@ payedButtonFilter.addEventListener("click", async function () {
 
       if (debtStatus == true) debtStatut.textContent = "Payé";
       if (debtStatus == false) debtStatut.textContent = "Non Payé";
-      payButton.textContent = "Payer";
+      if (debtStatus == true) {
+        payButton.classList.add("pay-buttons--paid");
+        payButton.textContent = "Payé";
+      } else {
+        payButton.textContent = "Payer";
+      }
       userTd.textContent = debt.person;
       amountTd.textContent = debt.amount + " F";
       debtDescription.textContent = debt.description;
@@ -303,10 +318,8 @@ document
           trId +
           " a été marquée comme payée avec succès",
       );
-      btn.disabled = true; // Désactive le bouton (gère nativement le clic)
-      btn.style.backgroundColor = "grey";
-      btn.style.cursor = "not-allowed"; // Affiche l'icône "interdit"
-      btn.textContent = "Payé"; // Op
+      btn.classList.add("pay-buttons--paid");
+      btn.textContent = "Payé";
     } catch (e) {
       alert("Une erreur s'est produite");
       console.log(e);
