@@ -1,6 +1,6 @@
 // const { all } = require("axios");
 
-const api = "http://localhost:8080/api/dettes";
+const api = "https://debt-tracking.onrender.com/api/dettes";
 
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
