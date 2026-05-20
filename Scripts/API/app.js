@@ -23,7 +23,7 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect(`${mongoUrl}/financestrack`)
+  .connect(mongoUrl)
   .then(log.database("CONNECTED".magenta));
 
 app.listen(port, function () {
