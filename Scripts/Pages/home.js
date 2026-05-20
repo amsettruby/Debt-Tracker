@@ -1,5 +1,5 @@
-const apiDebtsLink = "http://localhost:8080/api/dettes";
-const apiCreancesLink = "http://localhost:8080/api/creances";
+const apiDebtsLink = "https://debt-tracking.onrender.com/api/dettes";
+const apiCreancesLink = "https://debt-tracking.onrender.com/api/creances";
 // import mongoose from "mongoose";
 // mongoose
 //   .connect("mongodb://localhost/financestrack")
