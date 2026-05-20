@@ -691,32 +691,122 @@ tbody tr:last-child td {
     padding: 24px 16px 60px;
     padding-top: 72px;
   }
+
+  /* Summary strip : 1 colonne sur mobile */
   .summary-strip {
     grid-template-columns: 1fr;
   }
+  .scard {
+    padding: 16px 18px;
+  }
+  .scard-value {
+    font-size: 18px;
+  }
+
+  /* Filters bar : scroll horizontal sur mobile */
+  .filters-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    gap: 8px;
+  }
+  .filters-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-btn {
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  .search-wrap {
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  /* Table : masquer Description (col 3) et réduire padding */
   table th:nth-child(3),
   table td:nth-child(3) {
     display: none;
   }
-}
-@media (max-width: 480px) {
-  .search-input {
-    width: 160px;
+  thead th {
+    padding: 0 8px 10px;
+    font-size: 10px;
   }
-  .data-box {
-    padding: 16px;
+  tbody td {
+    padding: 11px 8px;
+    font-size: 13px;
+  }
+
+  /* Bouton Payer plus compact */
+  .pay-buttons {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  /* Box header : titre + bouton sur une ligne */
+  .box-header h2 {
+    font-size: 14px;
+  }
+  .add-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  /* Modal plein écran sur mobile */
+  .modal {
+    margin: 16px;
+    padding: 24px 20px;
   }
 }
 
+@media (max-width: 480px) {
+  .search-input {
+    width: 140px;
+  }
+  .data-box {
+    padding: 14px;
+  }
+  .topbar-left h1 {
+    font-size: 20px;
+  }
+  /* Masquer aussi la colonne Date sur très petit écran */
+  table th:nth-child(4),
+  table td:nth-child(4) {
+    display: none;
+  }
+  .scard-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+}
+
+/* ── BOUTON PAYER ─────────────────────────────── */
 .pay-buttons {
   background-color: #507667;
   border: none;
   border-radius: 7px;
   width: 70%;
   height: 100%;
+  padding: 7px 14px;
   color: white;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.2s, opacity 0.2s;
 }
 
 .pay-buttons:hover {
   cursor: pointer;
+  background-color: #3e5e51;
+}
+
+/* État "déjà payé" — toggle via JS : btn.classList.add('pay-buttons--paid') */
+.pay-buttons--paid {
+  background-color: #9ca3af;
+  color: #fff;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+  pointer-events: none;
 }
