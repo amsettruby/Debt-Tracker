@@ -18,13 +18,16 @@ const config = new ConsoleConfig();
 const log = new ConsoleLogger(config);
 const app = express();
 const port = process.env.PORT;
-const mongoUrl = process.env.mongodbUrl;
+const mongodb = process.env.MONGODBURL;
 app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect(mongoUrl)
-  .then(log.database("CONNECTED".magenta));
+  .connect(mongodb, {
+    dbName: "debts-manager",
+  })
+  .then(() => log.database("CONNECTED".magenta))
+  .catch((err) => console.error("Erreur de connexion DB :", err));
 
 app.listen(port, function () {
   log.custom("SERVER", Colors.Yellow, `RUNNING`.yellow);
@@ -107,7 +110,7 @@ app.patch("/api/dettes/:id", async (req, res) => {
   try {
     const dette = await Dettes.findOne({ _id: req.body._id });
     await dette.updateOne({ state: req.body.state });
-    res.send('Modification terminée')
+    res.send("Modification terminée");
   } catch (e) {
     console.log(e);
   }
@@ -117,7 +120,7 @@ app.patch("/api/creances/:id", async (req, res) => {
   try {
     const creance = await Creances.findOne({ _id: req.body._id });
     await creance.updateOne({ state: req.body.state });
-    res.send('Modification terminée')
+    res.send("Modification terminée");
   } catch (e) {
     console.log(e);
   }
