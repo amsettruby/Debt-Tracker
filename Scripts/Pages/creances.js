@@ -58,7 +58,12 @@ async function getcreancesData() {
 
       if (creanceStatus == true) creanceStatut.textContent = "Payé";
       if (creanceStatus == false) creanceStatut.textContent = "Non Payé";
-      payButton.textContent = "Payer";
+      if (creanceStatus == true) {
+        payButton.classList.add("pay-buttons--paid");
+        payButton.textContent = "Payé";
+      } else {
+        payButton.textContent = "Payer";
+      }
       userTd.textContent = creance.person;
       amountTd.textContent = creance.amount + " F";
       creanceDescription.textContent = creance.description;
@@ -136,7 +141,12 @@ pendingButtonFilter.addEventListener("click", async function () {
 
       if (CreancesStatus == true) CreancesStatut.textContent = "Payé";
       if (CreancesStatus == false) CreancesStatut.textContent = "Non Payé";
-      payButton.textContent = "Payer";
+      if (CreancesStatus == true) {
+        payButton.classList.add("pay-buttons--paid");
+        payButton.textContent = "Payé";
+      } else {
+        payButton.textContent = "Payer";
+      }
       userTd.textContent = Creances.person;
       amountTd.textContent = Creances.amount + " F";
       CreancesDescription.textContent = Creances.description;
@@ -213,7 +223,12 @@ payedButtonFilter.addEventListener("click", async function () {
 
       if (CreancesStatus == true) CreancesStatut.textContent = "Payé";
       if (CreancesStatus == false) CreancesStatut.textContent = "Non Payé";
-      payButtons.textContent = "Payer";
+      if (CreancesStatus == true) {
+        payButtons.classList.add("pay-buttons--paid");
+        payButtons.textContent = "Payé";
+      } else {
+        payButtons.textContent = "Payer";
+      }
       userTd.textContent = Creances.person;
       amountTd.textContent = Creances.amount + " F";
       CreancesDescription.textContent = Creances.description;
@@ -327,10 +342,8 @@ document
           trId +
           " a été marquée comme payée avec succès",
       );
-      btn.disabled = true; // Désactive le bouton (gère nativement le clic)
-      btn.style.backgroundColor = "grey";
-      btn.style.cursor = "not-allowed"; // Affiche l'icône "interdit"
-      btn.textContent = "Payé"; // Op
+      btn.classList.add("pay-buttons--paid");
+      btn.textContent = "Payé";
     } catch (e) {
       alert("Une erreur s'est produite");
       console.log(e);
