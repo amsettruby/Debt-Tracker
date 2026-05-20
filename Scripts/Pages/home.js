@@ -21,6 +21,9 @@ function toggleSidebar() {
   document.getElementById("overlay").classList.toggle("open");
 }
 
+document.getElementById('overlay').addEventListener('click', toggleSidebar)
+document.getElementById('burger').addEventListener('click', toggleSidebar)
+
 window.addEventListener("load", async () => {
   setInterval(() => {
     getDebtsData();
