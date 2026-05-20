@@ -1,260 +1,355 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FinanceTrack — Tableau de Bord</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="CSS/home.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="Scripts/Pages/home.js" type="module"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinanceTrack — Tableau de Bord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/CSS/home.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/Scripts/Pages/home.js" type="module"></script>
+  </head>
+  <body>
+    <!-- Mobile overlay -->
+    <div class="overlay" id="overlay"></div>
 
-</head>
-<body>
+    <!-- Burger button -->
+    <button class="burger" id="burger">
+      <i class="fas fa-bars"></i>
+    </button>
 
-<!-- Mobile overlay -->
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="app">
+      <!-- ── SIDEBAR ── -->
+      <aside class="sidebar" id="sidebar">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-chart-pie"></i></div>
+          FinanceTrack
+        </div>
 
-<!-- Burger button -->
-<button class="burger" id="burger" onclick="toggleSidebar()">
-  <i class="fas fa-bars"></i>
-</button>
+        <nav>
+          <div class="nav-section">Menu</div>
+          <ul>
+            <li class="active">
+              <i class="fas fa-th-large"></i> Tableau de Bord
+            </li>
+            <li onclick="location.href = 'dettes.html'">
+              <i class="fas fa-hand-holding-usd"></i> Dettes
+              <span class="badge numberDebts"></span>
+            </li>
+            <li onclick="location.href = 'creances.html'">
+              <i class="fas fa-piggy-bank"></i> Créances
+            </li>
+            <li><i class="fas fa-history"></i> Historique</li>
+          </ul>
+          <div class="nav-section">Analyse</div>
+          <ul>
+            <li><i class="fas fa-chart-line"></i> Rapports</li>
+            <li><i class="fas fa-bell"></i> Alertes</li>
+          </ul>
+          <div class="nav-section">Système</div>
+          <ul>
+            <li><i class="fas fa-cog"></i> Paramètres</li>
+          </ul>
+        </nav>
 
-<div class="app">
-
-  <!-- ── SIDEBAR ── -->
-  <aside class="sidebar" id="sidebar">
-    <div class="logo">
-      <div class="logo-icon"><i class="fas fa-chart-pie"></i></div>
-      FinanceTrack
-    </div>
-
-    <nav>
-      <div class="nav-section">Menu</div>
-      <ul>
-        <li class="active"><i class="fas fa-th-large"></i> Tableau de Bord</li>
-        <li onclick="location.href='dettes.html'"><i class="fas fa-hand-holding-usd"></i> Dettes <span class="badge numberDebts"></span></li>
-        <li onclick="location.href='creances.html'"><i class="fas fa-piggy-bank"></i> Créances</li>
-        <li><i class="fas fa-history"></i> Historique</li>
-      </ul>
-      <div class="nav-section">Analyse</div>
-      <ul>
-        <li><i class="fas fa-chart-line"></i> Rapports</li>
-        <li><i class="fas fa-bell"></i> Alertes</li>
-      </ul>
-      <div class="nav-section">Système</div>
-      <ul>
-        <li><i class="fas fa-cog"></i> Paramètres</li>
-      </ul>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="avatar">IB</div>
-      <div>
-        <div class="name">Ibrahima B.</div>
-        <div class="role">Compte personnel</div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ── MAIN ── -->
-  <main class="main">
-
-    <div class="topbar">
-      <div class="topbar-left">
-        <h1>Tableau de Bord</h1>
-        <p>Mise à jour le 22 avril 2026 · <strong style="color:var(--green)">Tout est à jour</strong></p>
-      </div>
-      <div class="topbar-right">
-        <button class="icon-btn" title="Notifications">
-          <i class="fas fa-bell"></i>
-          <span class="notif-dot"></span>
-        </button>
-        <button class="icon-btn" title="Recherche"><i class="fas fa-search"></i></button>
-      </div>
-    </div>
-
-    <!-- KPI Cards -->
-    <section class="summary-grid">
-      <div class="kcard debt">
-        <div class="kcard-icon"><i class="fas fa-arrow-up"></i></div>
-        <h3>Total à Payer</h3>
-        <div class="amount totalDebtsAmount"></div>
-        <span class="trend-tag activeDebts"><i class="fas fa-clock"></i></span>
-        <div class="deco"><i class="fas fa-hand-holding-usd"></i></div>
-      </div>
-      <div class="kcard credit">
-        <div class="kcard-icon"><i class="fas fa-arrow-down"></i></div>
-        <h3>Total à Recevoir</h3>
-        <div class="amount totalCreancesAmount"></div>
-        <span class="trend-tag activeCreances"><i class="fas fa-users"></i></span>
-        <div class="deco"><i class="fas fa-piggy-bank"></i></div>
-      </div>
-      <div class="kcard balance">
-        <div class="kcard-icon"><i class="fas fa-wallet"></i></div>
-        <h3>Solde Disponible</h3>
-        <div class="amount">Unvailable</div>
-        <span class="trend-tag"><i class="fas fa-check"></i>Unvailable</span>
-        <div class="deco"><i class="fas fa-chart-pie"></i></div>
-      </div>
-    </section>
-
-    <!-- Debts & Credits -->
-    <section class="lists-grid">
-
-      <div class="data-box">
-        <div class="box-header">
-          <div style="display:flex;align-items:center;gap:10px">
-            <h2>Mes Dettes</h2>
-            <span class="count countDebt"></span>
+        <div class="sidebar-footer">
+          <div class="avatar">IB</div>
+          <div>
+            <div class="name">Ibrahima B.</div>
+            <div class="role">Compte personnel</div>
           </div>
-          <button class="add-btn" id="add-debt"><i class="fas fa-plus"></i> Ajouter</button>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Entité</th>
-              <th>Montant</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="entity">
-                  <div class="entity-avatar red" id="firstdebtavatar"></div>
-                  <div>
-                    <div style="font-weight:600" id="firstDebtUser"></div>
-                    <div style="font-size:11px;color:var(--text-sub)" id="firstDebtDate"></div>
-                  </div>
-                </div>
-              </td>
-              <td><span class="amount-cell neg" id="firstDebtAmount"></span></td>
-              <td><button class="btn btn-pay"><i class="fas fa-credit-card"></i> Payer</button></td>
-            </tr>
-            <tr>
-              <td>
-                <div class="entity">
-                  <div class="entity-avatar red" id="seconddebtavatar"></div>
-                  <div>
-                    <div style="font-weight:600" id="secondDebtUser"></div>
-                    <div style="font-size:11px;color:var(--text-sub)" id="secondDebtDate"></div>
-                  </div>
-                </div>
-              </td>
-              <td><span class="amount-cell neg" id="secondDebtAmount"></span></td>
-              <td><button class="btn btn-pay"><i class="fas fa-credit-card"></i> Payer</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      </aside>
 
-      <div class="data-box">
-        <div class="box-header">
-          <div style="display:flex;align-items:center;gap:10px">
-            <h2>Mes Créances</h2>
-            <span class="count countCreances"></span>
+      <!-- ── MAIN ── -->
+      <main class="main">
+        <div class="topbar">
+          <div class="topbar-left">
+            <h1>Tableau de Bord</h1>
+            <p>
+              Mise à jour le 22 avril 2026 ·
+              <strong style="color: var(--green)">Tout est à jour</strong>
+            </p>
           </div>
-          <button class="add-btn"><i class="fas fa-plus"></i> Ajouter</button>
+          <div class="topbar-right">
+            <button class="icon-btn" title="Notifications">
+              <i class="fas fa-bell"></i>
+              <span class="notif-dot"></span>
+            </button>
+            <button class="icon-btn" title="Recherche">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Personne</th>
-              <th>Montant</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="entity">
-                  <div class="entity-avatar green" id="firstCreancesavatar"></div>
-                  <div>
-                    <div style="font-weight:600" id="firstCreancesUser"></div>
-                    <div style="font-size:11px;color:var(--text-sub)" id="firstCreanceDate"></div>
-                  </div>
-                </div>
-              </td>
-              <td><span class="amount-cell pos" id="firstCreancesAmount"></span></td>
-              <td><button class="btn btn-remind"><i class="fas fa-paper-plane"></i> Relancer</button></td>
-            </tr>
-            <tr>
-              <td>
-                <div class="entity">
-                  <div class="entity-avatar green" id="secondCreancesavatar"></div>
-                  <div>
-                    <div style="font-weight:600" id="secondCreancesUser"></div>
-                    <div style="font-size:11px;color:var(--text-sub)" id="secondCreanceDate"></div>
-                  </div>
-                </div>
-              </td>
-              <td><span class="amount-cell pos" id="secondCreancesAmount"></span></td>
-              <td><button class="btn btn-remind"><i class="fas fa-paper-plane"></i> Relancer</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
-    </section>
+        <!-- KPI Cards -->
+        <section class="summary-grid">
+          <div class="kcard debt">
+            <div class="kcard-icon"><i class="fas fa-arrow-up"></i></div>
+            <h3>Total à Payer</h3>
+            <div class="amount totalDebtsAmount"></div>
+            <span class="trend-tag activeDebts"
+              ><i class="fas fa-clock"></i
+            ></span>
+            <div class="deco"><i class="fas fa-hand-holding-usd"></i></div>
+          </div>
+          <div class="kcard credit">
+            <div class="kcard-icon"><i class="fas fa-arrow-down"></i></div>
+            <h3>Total à Recevoir</h3>
+            <div class="amount totalCreancesAmount"></div>
+            <span class="trend-tag activeCreances"
+              ><i class="fas fa-users"></i
+            ></span>
+            <div class="deco"><i class="fas fa-piggy-bank"></i></div>
+          </div>
+          <div class="kcard balance">
+            <div class="kcard-icon"><i class="fas fa-wallet"></i></div>
+            <h3>Solde Disponible</h3>
+            <div class="amount">Unvailable</div>
+            <span class="trend-tag"
+              ><i class="fas fa-check"></i>Unvailable</span
+            >
+            <div class="deco"><i class="fas fa-chart-pie"></i></div>
+          </div>
+        </section>
 
-    <!-- History -->
-    <div class="data-box history">
-      <div class="box-header">
-        <div style="display:flex;align-items:center;gap:10px">
-          <h2>Historique des Transactions</h2>
-          <span class="count">2 récentes</span>
+        <!-- Debts & Credits -->
+        <section class="lists-grid">
+          <div class="data-box">
+            <div class="box-header">
+              <div style="display: flex; align-items: center; gap: 10px">
+                <h2>Mes Dettes</h2>
+                <span class="count countDebt"></span>
+              </div>
+              <button class="add-btn" id="add-debt">
+                <i class="fas fa-plus"></i> Ajouter
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Entité</th>
+                  <th>Montant</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="entity">
+                      <div class="entity-avatar red" id="firstdebtavatar"></div>
+                      <div>
+                        <div style="font-weight: 600" id="firstDebtUser"></div>
+                        <div
+                          style="font-size: 11px; color: var(--text-sub)"
+                          id="firstDebtDate"
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="amount-cell neg" id="firstDebtAmount"></span>
+                  </td>
+                  <td>
+                    <button class="btn btn-pay">
+                      <i class="fas fa-credit-card"></i> Payer
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="entity">
+                      <div
+                        class="entity-avatar red"
+                        id="seconddebtavatar"
+                      ></div>
+                      <div>
+                        <div style="font-weight: 600" id="secondDebtUser"></div>
+                        <div
+                          style="font-size: 11px; color: var(--text-sub)"
+                          id="secondDebtDate"
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="amount-cell neg" id="secondDebtAmount"></span>
+                  </td>
+                  <td>
+                    <button class="btn btn-pay">
+                      <i class="fas fa-credit-card"></i> Payer
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="data-box">
+            <div class="box-header">
+              <div style="display: flex; align-items: center; gap: 10px">
+                <h2>Mes Créances</h2>
+                <span class="count countCreances"></span>
+              </div>
+              <button class="add-btn">
+                <i class="fas fa-plus"></i> Ajouter
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Personne</th>
+                  <th>Montant</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="entity">
+                      <div
+                        class="entity-avatar green"
+                        id="firstCreancesavatar"
+                      ></div>
+                      <div>
+                        <div
+                          style="font-weight: 600"
+                          id="firstCreancesUser"
+                        ></div>
+                        <div
+                          style="font-size: 11px; color: var(--text-sub)"
+                          id="firstCreanceDate"
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span
+                      class="amount-cell pos"
+                      id="firstCreancesAmount"
+                    ></span>
+                  </td>
+                  <td>
+                    <button class="btn btn-remind">
+                      <i class="fas fa-paper-plane"></i> Relancer
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="entity">
+                      <div
+                        class="entity-avatar green"
+                        id="secondCreancesavatar"
+                      ></div>
+                      <div>
+                        <div
+                          style="font-weight: 600"
+                          id="secondCreancesUser"
+                        ></div>
+                        <div
+                          style="font-size: 11px; color: var(--text-sub)"
+                          id="secondCreanceDate"
+                        ></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span
+                      class="amount-cell pos"
+                      id="secondCreancesAmount"
+                    ></span>
+                  </td>
+                  <td>
+                    <button class="btn btn-remind">
+                      <i class="fas fa-paper-plane"></i> Relancer
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- History -->
+        <div class="data-box history">
+          <div class="box-header">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <h2>Historique des Transactions</h2>
+              <span class="count">2 récentes</span>
+            </div>
+            <button class="add-btn">
+              <i class="fas fa-filter"></i> Filtrer
+            </button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Catégorie</th>
+                <th>Montant</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: var(--text-sub); font-size: 13px">
+                  15/03/2026
+                </td>
+                <td>
+                  <div class="entity">
+                    <div class="entity-avatar blue" style="border-radius: 10px">
+                      <i class="fas fa-home" style="font-size: 13px"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 600">Loyer Mars</div>
+                      <div style="font-size: 11px; color: var(--text-sub)">
+                        Virement automatique
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="cat-tag">Logement</span></td>
+                <td><span class="amount-cell neg">−700 €</span></td>
+                <td><span class="status done">Complété</span></td>
+              </tr>
+              <tr>
+                <td style="color: var(--text-sub); font-size: 13px">
+                  20/03/2026
+                </td>
+                <td>
+                  <div class="entity">
+                    <div
+                      class="entity-avatar green"
+                      style="border-radius: 10px"
+                    >
+                      <i class="fas fa-user" style="font-size: 13px"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 600">Prêt Thomas</div>
+                      <div style="font-size: 11px; color: var(--text-sub)">
+                        Remboursement partiel
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="cat-tag">Prêt</span></td>
+                <td><span class="amount-cell pos">+500 €</span></td>
+                <td><span class="status pending">En attente</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <button class="add-btn"><i class="fas fa-filter"></i> Filtrer</button>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Catégorie</th>
-            <th>Montant</th>
-            <th>Statut</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="color:var(--text-sub);font-size:13px">15/03/2026</td>
-            <td>
-              <div class="entity">
-                <div class="entity-avatar blue" style="border-radius:10px"><i class="fas fa-home" style="font-size:13px"></i></div>
-                <div>
-                  <div style="font-weight:600">Loyer Mars</div>
-                  <div style="font-size:11px;color:var(--text-sub)">Virement automatique</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="cat-tag">Logement</span></td>
-            <td><span class="amount-cell neg">−700 €</span></td>
-            <td><span class="status done">Complété</span></td>
-          </tr>
-          <tr>
-            <td style="color:var(--text-sub);font-size:13px">20/03/2026</td>
-            <td>
-              <div class="entity">
-                <div class="entity-avatar green" style="border-radius:10px"><i class="fas fa-user" style="font-size:13px"></i></div>
-                <div>
-                  <div style="font-weight:600">Prêt Thomas</div>
-                  <div style="font-size:11px;color:var(--text-sub)">Remboursement partiel</div>
-                </div>
-              </div>
-            </td>
-            <td><span class="cat-tag">Prêt</span></td>
-            <td><span class="amount-cell pos">+500 €</span></td>
-            <td><span class="status pending">En attente</span></td>
-          </tr>
-        </tbody>
-      </table>
+      </main>
     </div>
-
-  </main>
-</div>
-</body>
+  </body>
 </html>
