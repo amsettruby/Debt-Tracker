@@ -18,11 +18,12 @@ const config = new ConsoleConfig();
 const log = new ConsoleLogger(config);
 const app = express();
 const port = process.env.PORT;
+const mongoUrl = process.env.mongodbUrl;
 app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://localhost/financestrack")
+  .connect(`${mongoUrl}/financestrack`)
   .then(log.database("CONNECTED".magenta));
 
 app.listen(port, function () {
