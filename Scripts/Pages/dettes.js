@@ -1,5 +1,4 @@
-// const { all } = require("axios");
-
+const serverUrl = 'https://debt-tracking.onrender.com'
 const api = "https://debt-tracking.onrender.com/api/dettes";
 
 function toggleSidebar() {
@@ -87,7 +86,7 @@ pendingButtonFilter.addEventListener("click", async function () {
   currentActiveButton[0].classList.toggle("actives");
   pendingButtonFilter.className = "filter-btn actives";
   const pendingApiLink = await axios.get(
-    "http://localhost:8080/api/dettes/false",
+    serverUrl + "/api/dettes/false",
   );
 
   const dettesTableBody = document.getElementById("dettesTableBody");
@@ -162,7 +161,7 @@ payedButtonFilter.addEventListener("click", async function () {
   const currentActiveButton = document.getElementsByClassName("actives");
   currentActiveButton[0].classList.toggle("actives");
   payedButtonFilter.className = "filter-btn actives";
-  const paidApiLink = await axios.get("http://localhost:8080/api/dettes/true");
+  const paidApiLink = await axios.get(serverUrl + "/api/dettes/true");
 
   const dettesTableBody = document.getElementById("dettesTableBody");
 
@@ -262,7 +261,7 @@ submitButton.addEventListener("click", async () => {
     description: document.getElementById("fDesc").value,
   };
   try {
-    const newDebt = await axios.post("http://localhost:8080/api/dettes", data);
+    const newDebt = await axios.post(serverUrl + "/api/dettes", data);
     const debtTableBody = document.getElementById("dettesTableBody");
     const newTr = document.createElement("tr");
     const nameTd = document.createElement("td");
@@ -309,7 +308,7 @@ document
 
     // Ton appel API ici, ex:
     try {
-      await axios.patch(`http://localhost:8080/api/dettes/${trId}`, {
+      await axios.patch(serverUrl + `/api/dettes/${trId}`, {
         _id: trId,
         state: true,
       });
