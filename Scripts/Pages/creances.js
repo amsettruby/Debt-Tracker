@@ -1,5 +1,4 @@
-// const { all } = require("axios");
-
+const serverUrl = 'https://debt-tracking.onrender.com'
 const api = "https://debt-tracking.onrender.com/api/creances";
 
 function toggleSidebar() {
@@ -91,7 +90,7 @@ pendingButtonFilter.addEventListener("click", async function () {
   currentActiveButton[0].classList.toggle("actives");
   pendingButtonFilter.className = "filter-btn actives";
   const pendingApiLink = await axios.get(
-    "http://localhost:8080/api/creances/false",
+    serverUrl + "/api/creances/false",
   );
 
   const creancesTableBody = document.getElementById("creancesTableBody");
@@ -173,7 +172,7 @@ payedButtonFilter.addEventListener("click", async function () {
   currentActiveButton[0].classList.toggle("actives");
   payedButtonFilter.className = "filter-btn actives";
   const paidApiLink = await axios.get(
-    "http://localhost:8080/api/creances/true",
+    serverUrl + "/api/creances/true",
   );
 
   const creancesTableBody = document.getElementById("creancesTableBody");
@@ -282,7 +281,7 @@ submitButton.addEventListener("click", async () => {
   };
   try {
     const newDebt = await axios.post(
-      "http://localhost:8080/api/creances",
+      serverUrl + "/api/creances",
       data,
     );
     const creanceTableBody = document.getElementById("creancesTableBody");
@@ -333,7 +332,7 @@ document
 
     // Ton appel API ici, ex:
     try {
-      await axios.patch(`http://localhost:8080/api/creances/${trId}`, {
+      await axios.patch(serverUrl + `/api/creances/${trId}`, {
         _id: trId,
         state: true,
       });
